@@ -4,9 +4,7 @@ import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
 import Loading from "../../Shared/Loading/Loading";
 
 const AllUsers = () => {
-
-    const {user} = useContext(AuthContext)
-
+  const { user } = useContext(AuthContext);
 
   const {
     data: allUsers = [],
@@ -15,14 +13,14 @@ const AllUsers = () => {
   } = useQuery({
     queryKey: ["allUsers", user?.email],
     queryFn: async () => {
-        const res = await fetch(
-          `http://localhost:5000/allUsers?email=${user?.email}`,
-          {
-            headers: {
-              authorization: localStorage.getItem("doctorToken"),
-            },
-          }
-        );
+      const res = await fetch(
+        `https://doctors-portal-server-khaki.vercel.app/allUsers?email=${user?.email}`,
+        {
+          headers: {
+            authorization: localStorage.getItem("doctorToken"),
+          },
+        }
+      );
       const data = await res.json();
       return data;
     },
@@ -33,12 +31,15 @@ const AllUsers = () => {
   }
 
   const handleAdmin = (id) => {
-    fetch(`http://localhost:5000/allUsers/admin/${id}`, {
+    fetch(
+      `https://doctors-portal-server-khaki.vercel.app/allUsers/admin/${id}`,
+      {
         method: "PUT",
         headers: {
-            authorization : localStorage.getItem('doctorToken')
-        }
-    })
+          authorization: localStorage.getItem("doctorToken"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.matchedCount) {
@@ -70,7 +71,7 @@ const AllUsers = () => {
                 <th>{i + 1}</th>
                 <td>{users.name}</td>
                 <td>{users.email}</td>
-                <td >
+                <td>
                   {users?.role === "Admin" ? (
                     <h1 className="text-md font-semibold text-green-500">
                       Admin

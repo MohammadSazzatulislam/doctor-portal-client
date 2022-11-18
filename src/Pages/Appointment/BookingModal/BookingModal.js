@@ -27,7 +27,7 @@ const BookingModal = ({ tretment, selected, setTretment, refetch }) => {
       phone,
     };
 
-    fetch("http://localhost:5000/bookings", {
+    fetch("https://doctors-portal-server-khaki.vercel.app/bookings", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -39,10 +39,9 @@ const BookingModal = ({ tretment, selected, setTretment, refetch }) => {
         if (data.acknowledged) {
           setTretment(null);
           toast.success("Appointment Confirmed");
-          refetch()
-        }
-        else{
-          toast.error(data.message)
+          refetch();
+        } else {
+          toast.error(data.message);
         }
       })
       .catch((err) => console.log(err.message));

@@ -5,11 +5,11 @@ import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
 const MyAppointment = () => {
   const { user } = useContext(AuthContext);
 
-  const { data: booking = [],  } = useQuery({
+  const { data: booking = [] } = useQuery({
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/bookings?email=${user?.email}`,
+        `https://doctors-portal-server-khaki.vercel.app/bookings?email=${user?.email}`,
         {
           headers: {
             authorization: localStorage.getItem("doctorToken"),
@@ -20,8 +20,6 @@ const MyAppointment = () => {
       return data;
     },
   });
-
- 
 
   return (
     <div>

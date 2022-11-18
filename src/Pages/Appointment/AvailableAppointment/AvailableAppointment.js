@@ -7,18 +7,24 @@ import Loading from "../../Shared/Loading/Loading";
 
 const AvailableAppointment = ({ selected }) => {
   const [tretment, setTretment] = useState(null);
-  const date = format(selected, 'PP')
-  const { data: appointmentOption = [], refetch, isLoading } = useQuery({
+  const date = format(selected, "PP");
+  const {
+    data: appointmentOption = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["appointmentOptions", date],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/appointmentOptions?date=${date}`);
+      const res = await fetch(
+        `https://doctors-portal-server-khaki.vercel.app/appointmentOptions?date=${date}`
+      );
       const data = await res.json();
       return data;
     },
   });
 
   if (isLoading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   return (
