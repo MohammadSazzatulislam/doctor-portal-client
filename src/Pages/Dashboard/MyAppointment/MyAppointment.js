@@ -9,7 +9,7 @@ const MyAppointment = () => {
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `https://doctors-portal-server-khaki.vercel.app/bookings?email=${user?.email}`,
+        `http://localhost:5000/bookings?email=${user?.email}`,
         {
           headers: {
             authorization: localStorage.getItem("doctorToken"),
@@ -38,7 +38,7 @@ const MyAppointment = () => {
             </tr>
           </thead>
           <tbody>
-            {booking.map((book, i) => (
+            { booking.length >= 0 && booking.map((book, i) => (
               <tr className="hover" key={book._id}>
                 <th>{i + 1}</th>
                 <td>{book.petient}</td>

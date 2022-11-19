@@ -9,7 +9,7 @@ const Navber = () => {
   const handleSignOUt = () => {
     userSignOut()
       .then(() => {
-        localStorage.removeItem('doctorToken')
+        
       })
       .catch((error) => {
         // An error happened.

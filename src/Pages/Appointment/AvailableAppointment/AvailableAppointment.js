@@ -16,7 +16,7 @@ const AvailableAppointment = ({ selected }) => {
     queryKey: ["appointmentOptions", date],
     queryFn: async () => {
       const res = await fetch(
-        `https://doctors-portal-server-khaki.vercel.app/appointmentOptions?date=${date}`
+        `http://localhost:5000/appointmentOptions?date=${date}`
       );
       const data = await res.json();
       return data;
