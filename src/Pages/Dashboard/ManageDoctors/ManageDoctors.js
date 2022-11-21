@@ -1,9 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import ConfirmationModal from "../../Shared/ConfirmationModal/ConfirmationModal";
 import Loading from "../../Shared/Loading/Loading";
 
 const ManageDoctors = () => {
-  const { data: doctors = [], isLoading } = useQuery({
+  const [deleteDoctor, setDeleteDoctor] = useState(null);
+
+  const { data: doctors = [], isLoading, refetch } = useQuery({
     queryKey: ["doctors"],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/doctors`, {
@@ -15,6 +19,28 @@ const ManageDoctors = () => {
       return data;
     },
   });
+  
+  const handleDeleteCancle = () => {
+    setDeleteDoctor(null);
+  };
+
+  const handleDeleteSuccess = (doctor) => {
+    fetch(`http://localhost:5000/doctors/${doctor._id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: localStorage.getItem("doctorToken"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          toast.success(`${doctor.name} delete successfully`);
+          refetch();
+        }
+      })
+      .catch((err) => console.log(err.messages));
+  };
+
 
   if (isLoading) {
     return <Loading></Loading>;
@@ -30,6 +56,7 @@ const ManageDoctors = () => {
               <th>Image</th>
               <th>Name</th>
               <th>Email</th>
+              <th>Specialty</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -37,19 +64,37 @@ const ManageDoctors = () => {
             {doctors.map((doctor, i) => (
               <tr className="hover text-center" key={doctor._id}>
                 <th>{i + 1}</th>
-                <td><img className="w-12 h-12 rounded-full" src={doctor.img} alt="" /></td>
+                <td>
+                  <img
+                    className="w-12 h-12 rounded-full"
+                    src={doctor.img}
+                    alt=""
+                  />
+                </td>
                 <td>{doctor.name}</td>
                 <td>{doctor.email}</td>
+                <td>{doctor.specialty}</td>
                 <td>
-                  <button className="btn btn-xs btn-danger text-white">
+                  <label
+                    onClick={() => setDeleteDoctor(doctor)}
+                    htmlFor="confirm-delete"
+                    className="btn btn-xs btn-danger text-white"
+                  >
                     Delete
-                  </button>
+                  </label>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {deleteDoctor && (
+        <ConfirmationModal
+          deleteDoctor={deleteDoctor}
+          handleDeleteCancle={handleDeleteCancle}
+          handleDeleteSuccess={handleDeleteSuccess}
+        ></ConfirmationModal>
+      )}
     </div>
   );
 };

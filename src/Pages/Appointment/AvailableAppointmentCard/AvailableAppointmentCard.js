@@ -10,6 +10,7 @@ const AvailableAppointmentCard = ({ card, setTretment }) => {
           {card.slots.length} {card.slots.length > 1 ? "spaces" : "space"}
           Available
         </p>
+        <p><small>Price : ${card.price }</small></p>
         <div className="card-actions justify-center">
           <label
             disabled={card.slots.length === 0}

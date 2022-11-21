@@ -12,11 +12,11 @@ const Home = () => {
     <div className="mx-5">
       <Banner></Banner>
       <InfoCards></InfoCards>
-      {/* <ServicesCards></ServicesCards>
+      <ServicesCards></ServicesCards>
       <DentalCare></DentalCare>
       <Appointment></Appointment>
       <Testmonial></Testmonial>
-      <Contacts></Contacts> */}
+      <Contacts></Contacts>
     </div>
   );
 };
