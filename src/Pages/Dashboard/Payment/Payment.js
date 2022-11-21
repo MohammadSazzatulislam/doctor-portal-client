@@ -11,8 +11,6 @@ const stripePromise = loadStripe(process.env.REACT_APP_PAYMENT_KEY);
 const Payment = () => {
   const booking = useLoaderData();
   const { date, price, tretment, slot } = booking;
-  const navigation = useNavigation();
-
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
@@ -35,9 +33,6 @@ const Payment = () => {
       .catch((err) => console.log(err.message));
   }, [price]);
 
-  if (navigation.state === "loading") {
-    return <Loading></Loading>;
-  }
   return (
     <div>
       <h1 className="text-2xl font-semibold">Payment for {tretment}</h1>
