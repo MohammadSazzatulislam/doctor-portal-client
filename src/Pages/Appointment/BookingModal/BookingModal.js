@@ -25,10 +25,10 @@ const BookingModal = ({ tretment, selected, setTretment, refetch }) => {
       slot,
       email,
       phone,
-      price:tretment.price
+      price: tretment.price,
     };
 
-    fetch("http://localhost:5000/bookings", {
+    fetch("https://doctors-portal-server-khaki.vercel.app/bookings", {
       method: "POST",
       headers: {
         "content-type": "application/json",

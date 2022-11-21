@@ -52,19 +52,18 @@ const CheckoutForm = ({ booking, clientSecret }) => {
       return;
     }
     if (paymentIntent.status === "succeeded") {
-
       const payment = {
         bookingId: booking._id,
         price: booking.price,
         email: booking.email,
-        transactionId : paymentIntent.id
-      }
+        transactionId: paymentIntent.id,
+      };
 
-      fetch("http://localhost:5000/payments", {
+      fetch("https://doctors-portal-server-khaki.vercel.app/payments", {
         method: "POST",
         headers: {
           "content-type": "application/json",
-          authorization : localStorage.getItem("doctorToken")
+          authorization: localStorage.getItem("doctorToken"),
         },
         body: JSON.stringify(payment),
       })

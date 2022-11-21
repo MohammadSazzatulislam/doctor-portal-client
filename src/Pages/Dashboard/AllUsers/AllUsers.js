@@ -14,7 +14,7 @@ const AllUsers = () => {
     queryKey: ["allUsers", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/allUsers?email=${user?.email}`,
+        `https://doctors-portal-server-khaki.vercel.app/allUsers?email=${user?.email}`,
         {
           headers: {
             authorization: localStorage.getItem("doctorToken"),
@@ -26,15 +26,16 @@ const AllUsers = () => {
     },
   });
 
-  
-
   const handleAdmin = (id) => {
-    fetch(`http://localhost:5000/allUsers/admin/${id}`, {
-      method: "PUT",
-      headers: {
-        authorization: localStorage.getItem("doctorToken"),
-      },
-    })
+    fetch(
+      `https://doctors-portal-server-khaki.vercel.app/allUsers/admin/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          authorization: localStorage.getItem("doctorToken"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.matchedCount > 0) {
@@ -65,7 +66,7 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            { allUsers.map((users, i) => (
+            {allUsers.map((users, i) => (
               <tr className="hover text-center" key={users._id}>
                 <th>{i + 1}</th>
                 <td>{users.name}</td>

@@ -2,22 +2,24 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import Loading from "../../Shared/Loading/Loading";
-import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AddDoctor = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    } = useForm();
-    
-    const navigate = useNavigate()
+  } = useForm();
+
+  const navigate = useNavigate();
 
   const { data: specialty = [], isLoading } = useQuery({
     queryKey: ["special"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/appointmentSpecialty");
+      const res = await fetch(
+        "https://doctors-portal-server-khaki.vercel.app/appointmentSpecialty"
+      );
       const data = await res.json();
       return data;
     },
@@ -44,22 +46,21 @@ const AddDoctor = () => {
             img: imageData.data.url,
           };
 
-            fetch("http://localhost:5000/doctors", {
-              method: "POST",
-              headers: {
-                "content-type": "application/json",
-                authorization: localStorage.getItem("doctorToken"),
-              },
-              body: JSON.stringify(doctor),
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                if (data.acknowledged) {
-                  toast.success("successfully added");
-                  navigate("/dashboard/managedoctors");
-                }
-              });
-            
+          fetch("https://doctors-portal-server-khaki.vercel.app/doctors", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              authorization: localStorage.getItem("doctorToken"),
+            },
+            body: JSON.stringify(doctor),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.acknowledged) {
+                toast.success("successfully added");
+                navigate("/dashboard/managedoctors");
+              }
+            });
         }
       })
       .catch((err) => err.message);

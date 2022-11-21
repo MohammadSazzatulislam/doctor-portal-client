@@ -7,30 +7,40 @@ import Loading from "../../Shared/Loading/Loading";
 const ManageDoctors = () => {
   const [deleteDoctor, setDeleteDoctor] = useState(null);
 
-  const { data: doctors = [], isLoading, refetch } = useQuery({
+  const {
+    data: doctors = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["doctors"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/doctors`, {
-        headers: {
-          authorization: localStorage.getItem("doctorToken"),
-        },
-      });
+      const res = await fetch(
+        `https://doctors-portal-server-khaki.vercel.app/doctors`,
+        {
+          headers: {
+            authorization: localStorage.getItem("doctorToken"),
+          },
+        }
+      );
       const data = await res.json();
       return data;
     },
   });
-  
+
   const handleDeleteCancle = () => {
     setDeleteDoctor(null);
   };
 
   const handleDeleteSuccess = (doctor) => {
-    fetch(`http://localhost:5000/doctors/${doctor._id}`, {
-      method: "DELETE",
-      headers: {
-        authorization: localStorage.getItem("doctorToken"),
-      },
-    })
+    fetch(
+      `https://doctors-portal-server-khaki.vercel.app/doctors/${doctor._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          authorization: localStorage.getItem("doctorToken"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.acknowledged) {
@@ -40,7 +50,6 @@ const ManageDoctors = () => {
       })
       .catch((err) => console.log(err.messages));
   };
-
 
   if (isLoading) {
     return <Loading></Loading>;
